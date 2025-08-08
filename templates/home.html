@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Health-care | Symptom Analysis Chatbot</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar container">
+      <div class="logo">HealthAssist</div>
+      <ul class="nav-menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="{{ url_for('register') }}" class="btn-primary">Start Chat</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="home" class="hero">
+    <div class="hero-content container">
+      <h1>Your AI Health-care Symptoms Analysis Chatbot</h1>
+      <p>Analyze symptoms, get health insights, and take control of your well-being — all powered by smart technology.</p>
+      <a href="{{ url_for('login') }}" class="btn-primary">Start Symptom Analysis</a>
+    </div>
+  </section>
+
+  <section id="features" class="features container">
+    <h2>What Can HealthAssist Do?</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <h3>Symptom Analysis</h3>
+        <p>Enter symptoms and receive potential conditions instantly with relevant medical details.</p>
+      </div>
+      <div class="feature">
+        <h3>Personalized Advice</h3>
+        <p>Receive tailored health tips, precautions, and recommended diets based on your symptoms.</p>
+      </div>
+      <div class="feature">
+        <h3>AI Chatbot</h3>
+        <p>Ask health-related questions and get intelligent responses from our AI-powered assistant.</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="faq container">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3>Can HealthAssist diagnose illnesses?</h3>
+        <p>No. HealthAssist provides possible conditions based on symptoms, but it is not a substitute for professional medical advice or diagnosis.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is my personal data secure?</h3>
+        <p>Yes. We take privacy seriously and ensure your symptom inputs are not stored or shared without your consent.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How accurate is the symptom analysis?</h3>
+        <p>HealthAssist uses AI to provide the most likely conditions based on common symptom patterns, but accuracy may vary. Always confirm with a healthcare provider.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I use HealthAssist for emergency situations?</h3>
+        <p>No. For emergencies or severe symptoms, contact your doctor or local emergency services immediately.</p>
+      </div>
+    </div>
+  </section>
+  
+
+  <section id="about" class="about container">
+    <h2>About HealthAssist</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <h3>Intelligent Assistant</h3>
+        <p>HealthAssist is powered by smart algorithms that analyze your symptoms quickly and accurately.</p>
+      </div>
+      <div class="feature">
+        <h3>Supportive, Not a Diagnosis</h3>
+        <p>Our chatbot offers health guidance, not medical diagnoses — always consult a professional for serious issues.</p>
+      </div>
+      <div class="feature">
+        <h3>Privacy First</h3>
+        <p>Your information stays secure and private — we never share or sell your data.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="disclaimer">
+    <div class="container">
+      <p class="disclaimer-text">
+        <strong>Disclaimer:</strong> HealthAssist is intended for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider with any questions you may have regarding a medical condition.
+      </p>
+    </div>
+  </section>
+      
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-section">
+        <h3>Contact Us</h3>
+        <p><strong>Email:</strong> support@healthassist.com</p>
+        <p><strong>Phone:</strong> +254 712 345 678</p>
+        <p><strong>Location:</strong> Nairobi, Kenya</p>
+      </div>
+      <div class="footer-section">
+        <p>&copy; 2025 HealthAssist. Designed for better health awareness.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

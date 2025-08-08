@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register | HealthAssist</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}" />
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar container">
+          <div class="logo">HealthAssist</div>
+          <ul class="nav-menu">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+          </ul>
+        </nav>
+      </header>
+      
+  <div class="auth-container">
+    <h2>Create Account</h2>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('register') }}" method="POST" class="auth-form">
+      <input type="text" name="fullname" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email Address" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required />
+      <button type="submit" class="btn-primary">Register</button>
+      <p class="auth-alt">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+    </form>
+  </div>
+</body>
+</html>

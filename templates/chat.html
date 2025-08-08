@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HealthAssist Symptom Analyzer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}" />
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">Healthchatbot</div>
+      <ul class="nav-menu">
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('logout') }}" id="logout-link">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Chat Section -->
+    <div class="chat-box">
+      <div class="chat-header">
+        <div class="header-content">
+          <h2>Symptom Analyzer</h2>
+          <p>Describe your symptoms and get preliminary health information</p>
+        </div>
+        <button class="new-chat-btn" id="new-chat-btn">+ New Chat</button>
+      </div>
+      <div class="chat-body" id="chat-body">
+        <div class="bot-message" id="initial-bot-message">
+          <p>Hello! I'm Healthchatbot, your AI-powered symptom analyzer. I can help you understand possible causes for your symptoms and suggest when to seek medical attention.</p>
+          <p>Please describe your symptoms clearly. For example:</p>
+          <ul>
+            <li>"I've had a fever and cough for 3 days"</li>
+            <li>"My stomach hurts and I feel nauseous"</li>
+            <li>"Headache with blurred vision since yesterday"</li>
+          </ul>
+          <p style="margin-top: 0.75rem; font-weight: 500; color: var(--accent);">Note: I'm not a doctor, but I can provide helpful information.</p>
+        </div>
+      </div>
+
+      <!-- Suggestion Chips -->
+      <div class="suggestions">
+        <div class="chip" onclick="insertText('Headache')">Headache</div>
+        <div class="chip" onclick="insertText('Fever')">Fever</div>
+        <div class="chip" onclick="insertText('Cough')">Cough</div>
+        <div class="chip" onclick="insertText('Fatigue')">Fatigue</div>
+        <div class="chip" onclick="insertText('Nausea')">Nausea</div>
+        <div class="chip" onclick="insertText('Dizziness')">Dizziness</div>
+        <div class="chip" onclick="insertText('Shortness of breath')">Shortness of breath</div>
+      </div>
+
+      <!-- Input Section -->
+      <div class="input-area">
+        <textarea id="symptom-input" rows="3" placeholder="Describe your symptoms..."></textarea>
+        <div class="chat-buttons">
+          <button class="upload-btn" title="Upload File">📎 Upload</button>
+          <button class="voice-btn" title="Speak">🎤 Voice</button>
+          <button class="send-btn" title="Send">📨 Send</button>
+        </div>
+        <p style="font-size: 0.75rem; color: #777; margin-top: 0.5rem;">
+          This is not medical advice. Seek professional healthcare for diagnoses.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <p>HealthAssist v1.0 | For informational purposes only | Always consult a healthcare professional</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const chatBody = document.getElementById('chat-body');
+
+      // Fetch chat history from the server
+      try {
+        const response = await fetch("{{ url_for('get_chat_history') }}");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const chatHistory = await response.json();
+        console.log("Chat History:", chatHistory);
+
+        chatHistory.forEach((entry) => {
+          addMessage('user', entry.prompt);
+          addMessage('bot', entry.response);
+        });
+      } catch (error) {
+        console.error("Error fetching chat history:", error);
+      }
+
+      // Function to add a message to the chat body
+      function addMessage(sender, message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+        messageDiv.innerHTML = `<p>${message}</p>`;
+        chatBody.appendChild(messageDiv);
+        chatBody.scrollTop = chatBody.scrollHeight; // Auto-scroll to the bottom
+      }
+
+      // Handle send button
+      const textarea = document.getElementById('symptom-input');
+      const sendBtn = document.querySelector('.send-btn');
+
+      sendBtn.addEventListener('click', async () => {
+        const userMessage = textarea.value.trim();
+        if (!userMessage) return;
+
+        // Display user's message
+        addMessage('user', userMessage);
+        textarea.value = '';
+
+        try {
+          // Send user input to the server
+          const response = await fetch('/get', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `msg=${encodeURIComponent(userMessage)}`,
+          });
+
+          // Parse the response
+          const data = await response.json();
+          const botResponse = data.response;
+
+          // Display bot's response
+          addMessage('bot', botResponse);
+        } catch (error) {
+          console.error('Error:', error);
+          addMessage('bot', 'Sorry, I encountered an error while processing your request.');
+        }
+      });
+
+      // Handle "New Chat" button
+      const newChatBtn = document.getElementById('new-chat-btn');
+      const initialBotMessage = document.getElementById('initial-bot-message');
+
+      newChatBtn.addEventListener('click', () => {
+        const messages = chatBody.querySelectorAll('.bot-message, .user-message');
+        messages.forEach((message) => {
+          if (!message.isEqualNode(initialBotMessage)) {
+            message.remove();
+          }
+        });
+
+        textarea.value = '';
+      });
+
+      // Handle voice input
+      const voiceBtn = document.querySelector('.voice-btn');
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.continuous = false;
+
+        voiceBtn.addEventListener('click', () => {
+          recognition.start();
+        });
+
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          textarea.value += (textarea.value.trim() ? ' ' : '') + transcript;
+        };
+
+        recognition.onerror = (event) => {
+          console.error('Speech recognition error:', event.error);
+          alert('Speech recognition failed. Please try again.');
+        };
+      } else {
+        voiceBtn.disabled = true;
+        voiceBtn.title = 'Speech recognition not supported on this browser.';
+      }
+
+      // Handle file upload
+      const uploadBtn = document.querySelector('.upload-btn');
+      uploadBtn.addEventListener('click', () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.txt,.pdf,.doc,.docx,.png,.jpg,.jpeg';
+
+        input.addEventListener('change', () => {
+          const file = input.files[0];
+          if (file) {
+            alert(`File "${file.name}" has been selected.`);
+            // Integrate with backend upload here if needed
+          }
+        });
+
+        input.click();
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f8ff;
+    margin: 0;
+}
+
+.auth-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px); /* height minus header */
+    padding: 2rem 1rem;
+}
+
+/* Auth Container */
+.auth-container {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 102, 204, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin: auto;
+}
+
+.auth-container h2 {
+    margin-bottom: 1.5rem;
+    color: #0066cc;
+}
+
+/* Form */
+.auth-form input {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.6rem 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    width: 100%;
+    background-color: #0066cc;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #004a99;
+}
+
+/* Alternate Option */
+.auth-alt {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.auth-alt a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+/* Navigation */
+.header {
+    background-color: #0066cc;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0066cc;
+    color: #fff;
+    padding: 1rem 2rem;
+}
+
+.navbar .logo {
+    font-size: 1.5rem;
+}
+
+.navbar .nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navbar .nav-menu a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.navbar .nav-menu a:hover {
+    color: #ffdd57;
+}
